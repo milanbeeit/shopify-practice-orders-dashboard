@@ -1,92 +1,29 @@
-import { Form, useActionData, useLoaderData } from "react-router";
-import { login } from "../../shopify.server";
-import { loginErrorMessage } from "./error.server";
-
-export const loader = async ({ request }) => {
-  const errors = loginErrorMessage(await login(request));
-
-  return { errors };
+export const loader = async () => {
+  return null;
 };
 
 export const action = async () => {
-  console.log("******** LOGIN ACTION HIT ********");
-
-  return {
-    errors: {
-      shop: "TEST ACTION",
+  return new Response("LOGIN ACTION WORKS", {
+    status: 200,
+    headers: {
+      "Content-Type": "text/plain",
     },
-  };
+  });
 };
 
 export default function Auth() {
-  const loaderData = useLoaderData();
-  const actionData = useActionData();
-
-  const { errors } = actionData || loaderData;
-
   return (
-    <div
-      style={{
-        maxWidth: "500px",
-        margin: "80px auto",
-        padding: "32px",
-        fontFamily: "Arial, sans-serif",
-      }}
-    >
-      <h1 style={{ marginBottom: "24px" }}>Log in</h1>
+    <div style={{ padding: 40 }}>
+      <h1>AUTH TEST VERSION 12345</h1>
 
-      <Form method="post">
-        <div style={{ marginBottom: "16px" }}>
-          <label
-            htmlFor="shop"
-            style={{
-              display: "block",
-              marginBottom: "8px",
-              fontWeight: 600,
-            }}
-          >
-            Shop domain
-          </label>
+      <form method="post">
+        <input
+          name="shop"
+          defaultValue="practicestore-jv2xvjm6.myshopify.com"
+        />
 
-          <input
-            id="shop"
-            name="shop"
-            type="text"
-            placeholder="example.myshopify.com"
-            autoComplete="on"
-            style={{
-              width: "100%",
-              padding: "12px",
-              border: "1px solid #ccc",
-              borderRadius: "6px",
-              boxSizing: "border-box",
-            }}
-          />
-
-          {errors?.shop && (
-            <p
-              style={{
-                marginTop: "8px",
-                color: "red",
-              }}
-            >
-              {errors.shop}
-            </p>
-          )}
-        </div>
-
-        <button
-          type="submit"
-          style={{
-            padding: "12px 20px",
-            border: 0,
-            borderRadius: "6px",
-            cursor: "pointer",
-          }}
-        >
-          Log in
-        </button>
-      </Form>
+        <button type="submit">Test POST</button>
+      </form>
     </div>
   );
 }
