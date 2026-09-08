@@ -2,7 +2,7 @@
 
 client_id = "e6c690acb836e7a4e93e8c722b46a731"
 name = "orders-dashboardb"
-application_url = "https://example.com"
+application_url = "https://melodious-spirit-production-897f.up.railway.app"
 embedded = true
 
 [build]
@@ -21,4 +21,6 @@ uri = "/webhooks/orders/create"
 scopes = "read_orders"
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [
+  "https://melodious-spirit-production-897f.up.railway.app/api/auth"
+]
