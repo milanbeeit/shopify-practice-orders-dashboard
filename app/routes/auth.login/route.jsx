@@ -8,23 +8,14 @@ export const loader = async ({ request }) => {
   return { errors };
 };
 
-export const action = async ({ request }) => {
-  const clonedRequest = request.clone();
-  const formData = await clonedRequest.formData();
+export const action = async () => {
+  console.log("******** LOGIN ACTION HIT ********");
 
-  const shop = formData.get("shop");
-
-  console.log("SHOP FROM FORM:", shop);
-  console.log("REQUEST URL:", request.url);
-  console.log("REQUEST CONTENT TYPE:", request.headers.get("content-type"));
-
-  const result = await login(request);
-
-  console.log("LOGIN RESULT:", result);
-
-  const errors = loginErrorMessage(result);
-
-  return { errors };
+  return {
+    errors: {
+      shop: "TEST ACTION",
+    },
+  };
 };
 
 export default function Auth() {
