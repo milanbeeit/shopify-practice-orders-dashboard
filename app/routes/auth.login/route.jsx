@@ -9,9 +9,23 @@ export const loader = async ({ request }) => {
 };
 
 export const action = async ({ request }) => {
-  const errors = loginErrorMessage(await login(request));
+  const formData = await request.clone().formData();
 
-  return { errors };
+  console.log("LOGIN FORM DATA:", Object.fromEntries(formData.entries()));
+
+  try {
+    const result = await login(request);
+
+    console.log("LOGIN RESULT:", result);
+
+    const errors = loginErrorMessage(result);
+
+    return { errors };
+  } catch (error) {
+    console.error("LOGIN ERROR:", error);
+
+    throw error;
+  }
 };
 
 export default function Auth() {
