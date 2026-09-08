@@ -9,23 +9,22 @@ export const loader = async ({ request }) => {
 };
 
 export const action = async ({ request }) => {
-  const formData = await request.clone().formData();
+  const clonedRequest = request.clone();
+  const formData = await clonedRequest.formData();
 
-  console.log("LOGIN FORM DATA:", Object.fromEntries(formData.entries()));
+  const shop = formData.get("shop");
 
-  try {
-    const result = await login(request);
+  console.log("SHOP FROM FORM:", shop);
+  console.log("REQUEST URL:", request.url);
+  console.log("REQUEST CONTENT TYPE:", request.headers.get("content-type"));
 
-    console.log("LOGIN RESULT:", result);
+  const result = await login(request);
 
-    const errors = loginErrorMessage(result);
+  console.log("LOGIN RESULT:", result);
 
-    return { errors };
-  } catch (error) {
-    console.error("LOGIN ERROR:", error);
+  const errors = loginErrorMessage(result);
 
-    throw error;
-  }
+  return { errors };
 };
 
 export default function Auth() {
