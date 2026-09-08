@@ -1,4 +1,4 @@
-import { redirect, Form, useLoaderData } from "react-router";
+import { redirect, useLoaderData } from "react-router";
 import { login } from "../../shopify.server";
 import styles from "./styles.module.css";
 
@@ -18,36 +18,33 @@ export default function App() {
   return (
     <div className={styles.index}>
       <div className={styles.content}>
-        <h1 className={styles.heading}>A short heading about [your app]</h1>
+        <h1 className={styles.heading}>Shopify Orders Dashboard</h1>
+
         <p className={styles.text}>
-          A tagline about [your app] that describes your value proposition.
+          Enter your Shopify store domain to open the application.
         </p>
+
         {showForm && (
-          <Form className={styles.form} method="post" action="/auth/login">
+          <form className={styles.form} method="post" action="/auth/login">
             <label className={styles.label}>
               <span>Shop domain</span>
-              <input className={styles.input} type="text" name="shop" />
-              <span>e.g: my-shop-domain.myshopify.com</span>
+
+              <input
+                className={styles.input}
+                type="text"
+                name="shop"
+                placeholder="example.myshopify.com"
+                required
+              />
+
+              <span>e.g. my-shop-domain.myshopify.com</span>
             </label>
+
             <button className={styles.button} type="submit">
               Log in
             </button>
-          </Form>
+          </form>
         )}
-        <ul className={styles.list}>
-          <li>
-            <strong>Product feature</strong>. Some detail about your feature and
-            its benefit to your customer.
-          </li>
-          <li>
-            <strong>Product feature</strong>. Some detail about your feature and
-            its benefit to your customer.
-          </li>
-          <li>
-            <strong>Product feature</strong>. Some detail about your feature and
-            its benefit to your customer.
-          </li>
-        </ul>
       </div>
     </div>
   );
