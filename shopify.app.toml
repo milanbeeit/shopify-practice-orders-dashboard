@@ -15,11 +15,19 @@ api_version = "2026-10"
 topics = [ "orders/create" ]
 uri = "/webhooks/orders/create"
 
+[[webhooks.subscriptions]]
+topics = [ "orders/updated" ]
+uri = "/webhooks/orders/updated"
+
+[[webhooks.subscriptions]]
+topics = [ "orders/cancelled" ]
+uri = "/webhooks/orders/cancelled"
+
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
 scopes = "read_orders"
 
 [auth]
 redirect_urls = [
-  "https://melodious-spirit-production-897f.up.railway.app/api/auth"
+  "https://melodious-spirit-production-897f.up.railway.app/auth/callback"
 ]
