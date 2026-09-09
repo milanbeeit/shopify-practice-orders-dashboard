@@ -46,6 +46,22 @@ export default function Index() {
     };
   }, []);
 
+  const getStatus = (order) => {
+    if (order.cancelled) {
+      return "Cancelled";
+    }
+
+    if (order.fulfillmentStatus === "fulfilled") {
+      return "Fulfilled";
+    }
+
+    if (order.financialStatus === "paid") {
+      return "Paid";
+    }
+
+    return order.financialStatus || "Pending";
+  };
+
   return (
     <s-page heading="Orders Dashboard">
       <s-section>
@@ -70,12 +86,6 @@ export default function Index() {
 
               <tbody>
                 {orders.map((order) => {
-                  const status = order.cancelled
-                    ? "Cancelled"
-                    : order.fulfillmentStatus ||
-                      order.financialStatus ||
-                      "Unknown";
-
                   return (
                     <tr key={order.id}>
                       <td style={cellStyle}>{order.orderNumber}</td>
@@ -88,7 +98,7 @@ export default function Index() {
                         {order.total} {order.currency}
                       </td>
 
-                      <td style={cellStyle}>{status}</td>
+                      <td style={cellStyle}>{getStatus(order)}</td>
                     </tr>
                   );
                 })}
