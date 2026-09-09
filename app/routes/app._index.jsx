@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import db from "../db.server";
 
@@ -12,7 +13,38 @@ export const loader = async () => {
 };
 
 export default function Index() {
-  const { orders } = useLoaderData();
+  const { orders: initialOrders } = useLoaderData();
+  const [orders, setOrders] = useState(initialOrders);
+
+  useEffect(() => {
+    const eventSource = new EventSource("/events/orders");
+
+    eventSource.onmessage = (event) => {
+      const incomingOrder = JSON.parse(event.data);
+
+      setOrders((currentOrders) => {
+        const exists = currentOrders.some(
+          (order) => order.id === incomingOrder.id,
+        );
+
+        if (exists) {
+          return currentOrders.map((order) =>
+            order.id === incomingOrder.id ? incomingOrder : order,
+          );
+        }
+
+        return [incomingOrder, ...currentOrders];
+      });
+    };
+
+    eventSource.onerror = (error) => {
+      console.error("SSE error:", error);
+    };
+
+    return () => {
+      eventSource.close();
+    };
+  }, []);
 
   return (
     <s-page heading="Orders Dashboard">
